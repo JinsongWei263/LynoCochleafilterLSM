@@ -21,19 +21,20 @@ hearfilter = hearfilter / max(abs(hearfilter)) * 0.29;
 %% create LSM
 lsmopt.n = 64;
 lsmopt.r = 1;
-lsmopt.tm = 32;
-lsmopt.tc = 64;
+lsmopt.tm = 16;
+lsmopt.tc = 32;
 lsmopt.tf = 2;
 lsmopt.dt = 1;
-lsmopt.vth = 20;
+lsmopt.vth = 40;
 lsmopt.kee = 0.45;
 lsmopt.kei = 0.3;
 lsmopt.kie = 0.6;
 lsmopt.kii = 0.15;
 lsmopt.wee= 3;
-lsmopt.wei= 6;
-lsmopt.wie= -2;
-lsmopt.wii= -2;
+lsmopt.wei= 38;
+lsmopt.wie= 0;
+lsmopt.wii= 0;
+lsmopt.isth = 2;
 lsm = LSM(lsmopt);
 
 %% read wav_list
@@ -45,6 +46,7 @@ len = size(wav_list, 1);
 lsmout = [];
 label = ones(1,len);
 ii = 0;
+spikeear = {};
 for wavindex = 1 : 1 : len
 	wav_name = char(strcat('./recordings/', wav_list(wavindex)));
     name = char(wav_list(wavindex));
@@ -67,7 +69,7 @@ for wavindex = 1 : 1 : len
 	for i = 1 : size(y, 1)
     	y(i, :) = y(i, :) ./ maxy(i);
 	end
-	multi = 11;
+	multi = 17;
 	my = zeros(size(y,1), size(y,2)*multi);
 	for i = 1 : multi
     	my(:,i:multi:end) = y(:,:);
@@ -91,13 +93,15 @@ for wavindex = 1 : 1 : len
     BSASNDR = 20*log10(Eacgy./Ebsaerror);
     disp(['SNDR :', num2str(BSASNDR')]);
     
+    spikeear{ii} = bsast;
+    
     spike = zeros(size(bsast, 1), size(bsast,2)/multi);
 	for i = 1 : multi
 	    spike(:,:) = max(spike(:,:), bsast(:,i:multi:end));
 	end	
 	%% Applay LSM
     disp(["Applay LSM"]);
-	[lsm, lsmspike] = runLSM(lsm, spike);
+	[lsm, lsmspike] = runLSM(lsm, bsast);
 	% squarespike = reshape(lsmspike, [4,8]);
 	% imshow(1-squarespike);
 	plot(lsmspike);
@@ -105,13 +109,14 @@ for wavindex = 1 : 1 : len
     pause(0.001);
 	lsmout = [lsmout; lsmspike];
 end
+save('spike.mat','spikeear', 'label');
 save('wavlsm.mat', 'lsmout', 'label');
 save('wavdata.mat', 'wav_data');
 %% BP Net
 clear;
 load wavlsm.mat;
 m= size(lsmout,1);
-k = 10;
+k = 1;
 train_x = double(lsmout(1 :k: end,:));
 train_y = zeros(size(train_x,1),10);
 
@@ -129,8 +134,7 @@ end
 rand('state', 0);
 nn = nnsetup([64, 10]);
 opts.numepochs = 1000;
-opts.batchsize = 10;
+opts.batchsize = 20;
 [nn, L] = nntrain(nn, train_x, train_y, opts);
 [er, bad] = nntest(nn, train_x, train_y);
 assert(er< 0.08, "too big error");
-

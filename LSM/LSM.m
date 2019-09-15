@@ -8,6 +8,7 @@ function lsm = LSM(opt)
     lsm.vth = opt.vth;
     lsm.tf = opt.tf;
     lsm.dt = opt.dt;
+    lsm.isth = opt.isth;
     lsm.w = zeros(n,n);
     lsm.p = zeros(n,n);
     lsm.v = zeros(1,n);
@@ -38,8 +39,7 @@ function lsm = LSM(opt)
             yj = mod(a, 16) / 4;
             zj = mod(yj, 4);
             d(i,j) = double((x-xj)^2 + (y-yj)^2 + (z-zj)^2);
-            
-            if (E(i)==1 && E(j)==1) 
+            if (E(i)==1 && E(j)==1)
                 p(i,j) = kee * exp(-1*d(i,j)/r);
                 C(i,j) = rand > p(i,j);
                 W(i,j) = C(i,j) * wee;
@@ -50,34 +50,25 @@ function lsm = LSM(opt)
             elseif (E(i)==0 && E(j)==1) 
                 p(i,j) = kie * exp(-1 * d(i,j)/r);
                 C(i,j) = rand > p(i,j);
-                W(i,j) = C(i,j) * wie;
+                W(i,j) = C(i,j) * wie * 0 ;
             elseif (E(i)==0 && E(j)==1) 
                 p(i,j) = kii * exp(-1 *d(i,j)/r);
                 C(i,j) = rand > p(i,j);
-                W(i,j) = C(i,j) * wii;
+                W(i,j) = C(i,j) * wii * 0;
             end
         end
     end
-%     Win = zeros(n,n/2);
-%     for i = 1 : n/2
-%         if E(i)==1
-%             Win(i*2-1, i) = wee;
-%             Win(i*2, i) = wee;
-%         else
-%             Win(i*2-1, i) = wei;
-%             Win(i*2, i) = wei;
-%         end
-%     end
+
     Win = zeros(n,n);
+
     for i = 1 : n
         if E(i)==1
-%             Win(i*2-1, i) = wee;
             Win(i, i) = wee;
         else
-%             Win(i*2-1, i) = wei;
             Win(i, i) = wei;
         end
     end
+
     lsm.e = E;
     lsm.d = d;
     lsm.p = p;
@@ -85,6 +76,7 @@ function lsm = LSM(opt)
     lsm.W = W;
     lsm.Win = Win;
     for i = 1 : n
+        lsmW(i,i) = 0;
         lsm.C(i,i) = 0;
     end
 end

@@ -67,7 +67,7 @@ for wavindex = 1 : 1 : len
 	for i = 1 : size(y, 1)
     	y(i, :) = y(i, :) ./ maxy(i);
 	end
-	multi = 11;
+	multi = 17;
 	my = zeros(size(y,1), size(y,2)*multi);
 	for i = 1 : multi
     	my(:,i:multi:end) = y(:,:);
@@ -105,13 +105,15 @@ for wavindex = 1 : 1 : len
     pause(0.001);
 	lsmout = [lsmout; lsmspike];
 end
+save('spike_out', 'spike', 'label');
 save('wavlsm.mat', 'lsmout', 'label');
 save('wavdata.mat', 'wav_data');
 %% BP Net
 clear;
 load wavlsm.mat;
+
 m= size(lsmout,1);
-k = 10;
+k = 1;
 train_x = double(lsmout(1 :k: end,:));
 train_y = zeros(size(train_x,1),10);
 
@@ -129,8 +131,9 @@ end
 rand('state', 0);
 nn = nnsetup([64, 10]);
 opts.numepochs = 1000;
-opts.batchsize = 10;
+opts.batchsize = 50;
 [nn, L] = nntrain(nn, train_x, train_y, opts);
 [er, bad] = nntest(nn, train_x, train_y);
 assert(er< 0.08, "too big error");
+
 

@@ -58,23 +58,11 @@ function lsm = LSM(opt)
             end
         end
     end
-%     Win = zeros(n,n/2);
-%     for i = 1 : n/2
-%         if E(i)==1
-%             Win(i*2-1, i) = wee;
-%             Win(i*2, i) = wee;
-%         else
-%             Win(i*2-1, i) = wei;
-%             Win(i*2, i) = wei;
-%         end
-%     end
     Win = zeros(n,n);
     for i = 1 : n
         if E(i)==1
-%             Win(i*2-1, i) = wee;
             Win(i, i) = wee;
         else
-%             Win(i*2-1, i) = wei;
             Win(i, i) = wei;
         end
     end
@@ -85,6 +73,7 @@ function lsm = LSM(opt)
     lsm.W = W;
     lsm.Win = Win;
     for i = 1 : n
+        lsm.W(i,i) = 0;
         lsm.C(i,i) = 0;
     end
 end

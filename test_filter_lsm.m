@@ -25,6 +25,9 @@ lsmopt.tm = 32;
 lsmopt.tc = 64;
 lsmopt.tf = 2;
 lsmopt.dt = 1;
+lsmopt.kz = 4;
+lsmopt.kx = 4;
+lsmopt.ky = 4;
 lsmopt.vth = 20;
 lsmopt.kee = 0.45;
 lsmopt.kei = 0.3;
@@ -41,6 +44,7 @@ filename = './recordings/wav_list.txt';
 sound_data =[];
 wav_list = textread(filename, '%s');
 wav_data = [];
+wav_len = [];
 len = size(wav_list, 1);
 lsmout = [];
 label = ones(1,len);
@@ -51,11 +55,15 @@ for wavindex = 1 : 1 : len
     ii = ii + 1;
     label(ii) = str2num(name(1));
     disp(['number : ', num2str(wavindex), ' wave name : ', wav_name]);
-	[wav_test, fs] = audioread(wav_name);
-    wav_data = [wav_data; wav_test];
-%     label(i) = str2
+
+    [wav_test, fs] = audioread(wav_name);
 	time = length(wav_test);
     display(['wave length :', num2str(time)]);
+
+    wav_data = [wav_data; wav_test];
+    wav_len = [wav_len;time];
+
+    %     label(i) = str2
 	%% Applay Lynocochlea filter
     disp("Applay Lynocohlea Filter");
 	y = ApplyLynoCochleaFilter(wav_test', earfilter, opt);
@@ -105,9 +113,10 @@ for wavindex = 1 : 1 : len
     pause(0.001);
 	lsmout = [lsmout; lsmspike];
 end
+wav_label = label;
 save('spike_out', 'spike', 'label');
 save('wavlsm.mat', 'lsmout', 'label');
-save('wavdata.mat', 'wav_data');
+save('wavdata.mat', 'wav_data', 'wav_len', 'wav_label');
 %% BP Net
 clear;
 load wavlsm.mat;
@@ -131,7 +140,7 @@ end
 rand('state', 0);
 nn = nnsetup([64, 10]);
 opts.numepochs = 1000;
-opts.batchsize = 50;
+opts.batchsize = 10;
 [nn, L] = nntrain(nn, train_x, train_y, opts);
 [er, bad] = nntest(nn, train_x, train_y);
 assert(er< 0.08, "too big error");

@@ -12,12 +12,18 @@ function lsm = LSM(opt)
     lsm.p = zeros(n,n);
     lsm.v = zeros(1,n);
     lsm.t = zeros(1,n);
+    lsm.kx = opt.kx;
+    lsm.ky = opt.ky;
+    lsm.kz = opt.kz;
     d = zeros(n,n);
     
     E = randn(1,n) >= 0.5;
     C = zeros(n,n);
     W = zeros(n,n);
     p = zeros(n,n);
+    kx = lsm.kx;
+    ky = lsm.ky;
+    kz = lsm.kz;
     kee = opt.kee;
     kei = opt.kei;
     kie = opt.kie;
@@ -27,16 +33,20 @@ function lsm = LSM(opt)
     wie = opt.wie;
     wii = opt.wii;
     
+    assert((kx*ky*kz==n),'kx*ky*kz!=n');
+    
     for i = 1 : n
         a = int32(i);
-        x = a / 16;
-        y = mod(a, 16) / 4;
-        z = mod(y, 4);
+        x = a / (ky*kz);
+        y = mod(a, (ky*kz));
+        z = mod(y, kz);
+        y = y / kz;
         for j = 1 : n
             a = int32(j);
-            xj = a / 16;
-            yj = mod(a, 16) / 4;
-            zj = mod(yj, 4);
+            xj = a / (ky*kz);
+            yj = mod(a, (ky*kz));
+            zj = mod(yj, kz);
+            yj = yj / kz;
             d(i,j) = double((x-xj)^2 + (y-yj)^2 + (z-zj)^2);
             
             if (E(i)==1 && E(j)==1) 

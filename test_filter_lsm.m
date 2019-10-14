@@ -13,7 +13,7 @@ opt.EarPremphCorner = 300.00;
 
 [earfilter, cf] = CreateLynoCochleaFilter(opt);
 
-%%create BSA filter
+%% create BSA filter
 hearfilter = [0.0148264930711210,-0.0545957356107501,-0.00185072469746768,-0.0576891682999051,-0.0585522017011255,-0.0206252924614475,-0.138288795097396,0.0332863133250078,-0.207887220273215,0.0716629673876838,0.764556357556245,0.0716629673876838,-0.207887220273215,0.0332863133250078,-0.138288795097396,-0.0206252924614475,-0.0585522017011255,-0.0576891682999051,-0.00185072469746768,-0.0545957356107501,0.0148264930711210];
 hearfilter = hearfilter - min(hearfilter);
 hearfilter = hearfilter / max(abs(hearfilter)) * 0.29;
@@ -26,6 +26,9 @@ lsmopt.tc = 32;
 lsmopt.tf = 2;
 lsmopt.dt = 1;
 lsmopt.vth = 40;
+lsmopt.kx = 4;
+lsmopt.ky = 4;
+lsmopt.kz = 4;
 lsmopt.kee = 0.45;
 lsmopt.kei = 0.3;
 lsmopt.kie = 0.6;
@@ -42,22 +45,25 @@ filename = './recordings/wav_list.txt';
 sound_data =[];
 wav_list = textread(filename, '%s');
 wav_data = [];
+wav_len = [];
 len = size(wav_list, 1);
 lsmout = [];
 label = ones(1,len);
 ii = 0;
-spikeear = {};
-for wavindex = 1 : 1 : len
+for wavindex = 1 : 200 : len
 	wav_name = char(strcat('./recordings/', wav_list(wavindex)));
     name = char(wav_list(wavindex));
     ii = ii + 1;
     label(ii) = str2num(name(1));
     disp(['number : ', num2str(wavindex), ' wave name : ', wav_name]);
 	[wav_test, fs] = audioread(wav_name);
-    wav_data = [wav_data; wav_test];
-%     label(i) = str2
 	time = length(wav_test);
     display(['wave length :', num2str(time)]);
+
+    wav_data = [wav_data; wav_test];
+    wav_len = [wav_len; time];
+    
+%     label(i) = str2
 	%% Applay Lynocochlea filter
     disp("Applay Lynocohlea Filter");
 	y = ApplyLynoCochleaFilter(wav_test', earfilter, opt);
@@ -92,9 +98,7 @@ for wavindex = 1 : 1 : len
     Ebsaerror = sum(bsaerror.^2, 2);
     BSASNDR = 20*log10(Eacgy./Ebsaerror);
     disp(['SNDR :', num2str(BSASNDR')]);
-    
-    spikeear{ii} = bsast;
-    
+        
     spike = zeros(size(bsast, 1), size(bsast,2)/multi);
 	for i = 1 : multi
 	    spike(:,:) = max(spike(:,:), bsast(:,i:multi:end));
@@ -109,9 +113,9 @@ for wavindex = 1 : 1 : len
     pause(0.001);
 	lsmout = [lsmout; lsmspike];
 end
-save('spike.mat','spikeear', 'label');
+%% 
 save('wavlsm.mat', 'lsmout', 'label');
-save('wavdata.mat', 'wav_data');
+save('wavdata.mat', 'wav_data', 'wav_len');
 %% BP Net
 clear;
 load wavlsm.mat;
@@ -132,9 +136,9 @@ end
 [train_x, mu, sigma] = zscore(train_x);
 
 rand('state', 0);
-nn = nnsetup([64, 10]);
+nn = nnsetup([64, 32, 10]);
 opts.numepochs = 1000;
-opts.batchsize = 20;
+opts.batchsize = 10;
 [nn, L] = nntrain(nn, train_x, train_y, opts);
 [er, bad] = nntest(nn, train_x, train_y);
-assert(er< 0.08, "too big error");
+assert(er< 0.08, 'too big error');

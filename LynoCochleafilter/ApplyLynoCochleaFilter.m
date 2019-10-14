@@ -37,35 +37,51 @@ epsilon(3) = 1 - exp(-1/0.04/fs);
 epsilon(4) = 1 - exp(-1/0.01/fs);
 
 targetstage=[0.0032, 0.0016, 0.0008, 0.0004];
-
 acgy = zeros(channel, time);
 
-
 statelimit = 0.9;
+
 for acgstage = 1 : 4
     target = targetstage(acgstage);
     eps = epsilon(acgstage)/target;
     eps1 = (1 - epsilon(acgstage))/3.0;
-    state = ones(1,channel) * statelimit;
+    state = ones(channel,1) * statelimit;
+
     for t = 1 : time
-        for i = 1 : channel
-            acgy(i, t) = acgx(i, t) * ( 1 - state(i));
-            if (acgy(i, t) < 0) 
-                acgy(i, t) = 0;
-            end
-            if ( i==1) 
-                state(i) = acgy(i, t) * eps + eps1*(state(i) + state(i) + state(i+1));
-            elseif (i == channel) 
-                state(i) = acgy(i, t) * eps + eps1*(state(i-1) + state(i-1) + state(i));
-            else
-                state(i) = acgy(i, t) * eps + eps1*(state(i-1) + state(i) + state(i+1));
-            end
-            if (state(i)>statelimit) 
-                state(i) = statelimit;
-            end
-        end
+        acgy(:,t)  = acgx(:,t) .* (1 - state);
+        state(1) = acgy(1,t) * eps + eps1*(state(1) + state(1) + state(2));
+        state(2:end-1) = acgy(2:end-1,t) * eps + eps1 * (state(1:end-2) + state(2:end-1) + state(3:end));
+        state(end) = acgy(end, t)*eps + eps1*(state(end-1) + state(end) + state(end));
+        state(state>statelimit) = statelimit;
     end
+    
     acgx = acgy;
 end
+
+% for acgstage = 1 : 4
+%     target = targetstage(acgstage);
+%     eps = epsilon(acgstage)/target;
+%     eps1 = (1 - epsilon(acgstage))/3.0;
+%     state = ones(1,channel) * statelimit;
+%     for t = 1 : time
+%         for i = 1 : channel
+%             acgy(i, t) = acgx(i, t) * ( 1 - state(i));
+%             if (acgy(i, t) < 0) 
+%                 acgy(i, t) = 0;
+%             end
+%             if ( i==1) 
+%                 state(i) = acgy(i, t) * eps + eps1*(state(i) + state(i) + state(i+1));
+%             elseif (i == channel) 
+%                 state(i) = acgy(i, t) * eps + eps1*(state(i-1) + state(i-1) + state(i));
+%             else
+%                 state(i) = acgy(i, t) * eps + eps1*(state(i-1) + state(i) + state(i+1));
+%             end
+%             if (state(i)>statelimit) 
+%                 state(i) = statelimit;
+%             end
+%         end
+%     end
+%     acgx = acgy;
+% end
 
 end

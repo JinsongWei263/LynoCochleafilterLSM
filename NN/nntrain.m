@@ -29,7 +29,6 @@ batchsize = opts.batchsize;
 numepochs = opts.numepochs;
 
 numbatches = m / batchsize;
-
 assert(rem(numbatches, 1) == 0, 'numbatches must be a integer');
 
 L = zeros(numepochs*numbatches,1);
@@ -72,7 +71,7 @@ for i = 1 : numepochs
         nnupdatefigures(nn, fhandle, loss, opts, i);
     end
         
-    disp(['epoch ' num2str(i) '/' num2str(opts.numepochs) '. Took ' num2str(t) ' seconds' '. Mini-batch mean squared error on training set is ' num2str(mean(L((n-numbatches):(n-1)))) str_perf]);
+%     disp(['epoch ' num2str(i) '/' num2str(opts.numepochs) '. Took ' num2str(t) ' seconds' '. Mini-batch mean squared error on training set is ' num2str(mean(L((n-numbatches):(n-1)))) str_perf]);
     nn.learningRate = nn.learningRate * nn.scaling_learningRate;
 end
 end

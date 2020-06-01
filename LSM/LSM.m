@@ -1,6 +1,10 @@
 function lsm = LSM(opt)
     n = opt.n;
     r = opt.r;
+    kx = opt.kx;
+    ky = opt.ky;
+    kz = opt.kz;
+    m = kx*ky*kz;
     lsm.n = n;
     lsm.r = r;
     lsm.tm = opt.tm;
@@ -8,22 +12,19 @@ function lsm = LSM(opt)
     lsm.vth = opt.vth;
     lsm.tf = opt.tf;
     lsm.dt = opt.dt;
-    lsm.w = zeros(n,n);
-    lsm.p = zeros(n,n);
-    lsm.v = zeros(1,n);
-    lsm.t = zeros(1,n);
+    lsm.W = zeros(m,m);
+    lsm.p = zeros(m,m);
+    lsm.v = zeros(1,m);
+    lsm.t = zeros(1,m);
     lsm.kx = opt.kx;
     lsm.ky = opt.ky;
     lsm.kz = opt.kz;
-    d = zeros(n,n);
-    
-    E = randn(1,n) >= 0.4;
-    C = zeros(n,n);
-    W = zeros(n,n);
-    p = zeros(n,n);
-    kx = lsm.kx;
-    ky = lsm.ky;
-    kz = lsm.kz;
+    lsm.m = kx*ky*kz; 
+    d = zeros(m,m);
+    E = randn(1,m) >= 0.4;
+    C = zeros(m,m);
+    W = zeros(m,m);
+    p = zeros(m,m);
     kee = opt.kee;
     kei = opt.kei;
     kie = opt.kie;
@@ -33,9 +34,9 @@ function lsm = LSM(opt)
     wie = opt.wie;
     wii = opt.wii;
     
-    assert((kx*ky*kz==n),'kx*ky*kz!=n');
-    
-    for i = 1 : n
+%     assert((kx*ky*kz==n),'kx*ky*kz!=n');
+
+    for i = 1 : m
         a = int32(i);
         x = a / (ky*kz);
         y = mod(a, (ky*kz));
@@ -61,29 +62,44 @@ function lsm = LSM(opt)
                 p(i,j) = kie * exp(-1 * d(i,j)/r);
                 C(i,j) = rand > p(i,j);
                 W(i,j) = C(i,j) * wie ;
-            elseif (E(i)==0 && E(j)==1) 
+            elseif (E(i)==0 && E(j)==0) 
                 p(i,j) = kii * exp(-1 *d(i,j)/r);
                 C(i,j) = rand > p(i,j);
                 W(i,j) = C(i,j) * wii;
             end
         end
     end
-    Win = zeros(n,n);
-    for i = 1 : n
-        if E(i)==1
-            Win(i, i) = wee;
+    Win = zeros(n,m);
+    i = 0;
+    for j = 1 : m
+        i = i + 1;
+        if i>n
+            i=1;
+        end
+        if E(j)==1
+            Win(i,j) = wee;
         else
-            Win(i, i) = wei;
+            Win(i,j) = wei;
         end
     end
+%     for i = 1 : n
+%         for j = 1 : m
+%             if E(j)==1
+%                 Win(i,j) = 1;
+%             else
+%                 Win(i,j) = 1;
+%             end
+%         end
+%     end
+
     lsm.e = E;
     lsm.d = d;
     lsm.p = p;
     lsm.C = C;
     lsm.W = W;
     lsm.Win = Win;
-    for i = 1 : n
-        lsm.W(i,i) = 2;
+    for i = 1 : m
+        lsm.W(i,i) = 0;
         lsm.C(i,i) = 0;
     end
 end

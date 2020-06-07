@@ -1,0 +1,653 @@
+{
+"core63_1"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["0"],
+	"bottom_core"   : 0,
+	"bottom_synapse": ["0"]
+},
+"core63_2"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["1"],
+	"bottom_core"   : 0,
+	"bottom_synapse": ["1"]
+},
+"core63_3"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["2"],
+	"bottom_core"   : 0,
+	"bottom_synapse": ["2"]
+},
+"core63_4"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["3"],
+	"bottom_core"   : 0,
+	"bottom_synapse": ["3"]
+},
+"core63_5"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["4"],
+	"bottom_core"   : 1,
+	"bottom_synapse": ["0"]
+},
+"core63_6"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["5"],
+	"bottom_core"   : 1,
+	"bottom_synapse": ["1"]
+},
+"core63_7"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["6"],
+	"bottom_core"   : 1,
+	"bottom_synapse": ["2"]
+},
+"core63_8"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["7"],
+	"bottom_core"   : 1,
+	"bottom_synapse": ["3"]
+},
+"core63_9"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["8"],
+	"bottom_core"   : 2,
+	"bottom_synapse": ["0"]
+},
+"core63_10"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["9"],
+	"bottom_core"   : 2,
+	"bottom_synapse": ["1"]
+},
+"core63_11"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["10"],
+	"bottom_core"   : 2,
+	"bottom_synapse": ["2"]
+},
+"core63_12"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["11"],
+	"bottom_core"   : 2,
+	"bottom_synapse": ["3"]
+},
+"core63_13"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["12"],
+	"bottom_core"   : 3,
+	"bottom_synapse": ["0"]
+},
+"core63_14"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["13"],
+	"bottom_core"   : 3,
+	"bottom_synapse": ["1"]
+},
+"core63_15"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["14"],
+	"bottom_core"   : 3,
+	"bottom_synapse": ["2"]
+},
+"core63_16"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["15"],
+	"bottom_core"   : 3,
+	"bottom_synapse": ["3"]
+},
+"core63_17"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["16"],
+	"bottom_core"   : 4,
+	"bottom_synapse": ["0"]
+},
+"core63_18"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["17"],
+	"bottom_core"   : 4,
+	"bottom_synapse": ["1"]
+},
+"core63_19"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["18"],
+	"bottom_core"   : 4,
+	"bottom_synapse": ["2"]
+},
+"core63_20"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["19"],
+	"bottom_core"   : 4,
+	"bottom_synapse": ["3"]
+},
+"core63_21"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["20"],
+	"bottom_core"   : 5,
+	"bottom_synapse": ["0"]
+},
+"core63_22"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["21"],
+	"bottom_core"   : 5,
+	"bottom_synapse": ["1"]
+},
+"core63_23"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["22"],
+	"bottom_core"   : 5,
+	"bottom_synapse": ["2"]
+},
+"core63_24"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["23"],
+	"bottom_core"   : 5,
+	"bottom_synapse": ["3"]
+},
+"core63_25"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["24"],
+	"bottom_core"   : 6,
+	"bottom_synapse": ["0"]
+},
+"core63_26"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["25"],
+	"bottom_core"   : 6,
+	"bottom_synapse": ["1"]
+},
+"core63_27"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["26"],
+	"bottom_core"   : 6,
+	"bottom_synapse": ["2"]
+},
+"core63_28"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["27"],
+	"bottom_core"   : 6,
+	"bottom_synapse": ["3"]
+},
+"core63_29"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["28"],
+	"bottom_core"   : 7,
+	"bottom_synapse": ["0"]
+},
+"core63_30"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["29"],
+	"bottom_core"   : 7,
+	"bottom_synapse": ["1"]
+},
+"core63_31"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["30"],
+	"bottom_core"   : 7,
+	"bottom_synapse": ["2"]
+},
+"core63_32"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["31"],
+	"bottom_core"   : 7,
+	"bottom_synapse": ["3"]
+},
+"core63_33"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["32"],
+	"bottom_core"   : 8,
+	"bottom_synapse": ["0"]
+},
+"core63_34"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["33"],
+	"bottom_core"   : 8,
+	"bottom_synapse": ["1"]
+},
+"core63_35"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["34"],
+	"bottom_core"   : 8,
+	"bottom_synapse": ["2"]
+},
+"core63_36"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["35"],
+	"bottom_core"   : 8,
+	"bottom_synapse": ["3"]
+},
+"core63_37"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["36"],
+	"bottom_core"   : 9,
+	"bottom_synapse": ["0"]
+},
+"core63_38"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["37"],
+	"bottom_core"   : 9,
+	"bottom_synapse": ["1"]
+},
+"core63_39"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["38"],
+	"bottom_core"   : 9,
+	"bottom_synapse": ["2"]
+},
+"core63_40"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["39"],
+	"bottom_core"   : 9,
+	"bottom_synapse": ["3"]
+},
+"core63_41"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["40"],
+	"bottom_core"   : 10,
+	"bottom_synapse": ["0"]
+},
+"core63_42"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["41"],
+	"bottom_core"   : 10,
+	"bottom_synapse": ["1"]
+},
+"core63_43"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["42"],
+	"bottom_core"   : 10,
+	"bottom_synapse": ["2"]
+},
+"core63_44"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["43"],
+	"bottom_core"   : 10,
+	"bottom_synapse": ["3"]
+},
+"core63_45"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["44"],
+	"bottom_core"   : 11,
+	"bottom_synapse": ["0"]
+},
+"core63_46"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["45"],
+	"bottom_core"   : 11,
+	"bottom_synapse": ["1"]
+},
+"core63_47"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["46"],
+	"bottom_core"   : 11,
+	"bottom_synapse": ["2"]
+},
+"core63_48"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["47"],
+	"bottom_core"   : 11,
+	"bottom_synapse": ["3"]
+},
+"core63_49"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["48"],
+	"bottom_core"   : 12,
+	"bottom_synapse": ["0"]
+},
+"core63_50"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["49"],
+	"bottom_core"   : 12,
+	"bottom_synapse": ["1"]
+},
+"core63_51"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["50"],
+	"bottom_core"   : 12,
+	"bottom_synapse": ["2"]
+},
+"core63_52"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["51"],
+	"bottom_core"   : 12,
+	"bottom_synapse": ["3"]
+},
+"core63_53"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["52"],
+	"bottom_core"   : 13,
+	"bottom_synapse": ["0"]
+},
+"core63_54"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["53"],
+	"bottom_core"   : 13,
+	"bottom_synapse": ["1"]
+},
+"core63_55"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["54"],
+	"bottom_core"   : 13,
+	"bottom_synapse": ["2"]
+},
+"core63_56"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["55"],
+	"bottom_core"   : 13,
+	"bottom_synapse": ["3"]
+},
+"core63_57"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["56"],
+	"bottom_core"   : 14,
+	"bottom_synapse": ["0"]
+},
+"core63_58"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["57"],
+	"bottom_core"   : 14,
+	"bottom_synapse": ["1"]
+},
+"core63_59"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["58"],
+	"bottom_core"   : 14,
+	"bottom_synapse": ["2"]
+},
+"core63_60"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["59"],
+	"bottom_core"   : 14,
+	"bottom_synapse": ["3"]
+},
+"core63_61"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["60"],
+	"bottom_core"   : 15,
+	"bottom_synapse": ["0"]
+},
+"core63_62"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["61"],
+	"bottom_core"   : 15,
+	"bottom_synapse": ["1"]
+},
+"core63_63"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["62"],
+	"bottom_core"   : 15,
+	"bottom_synapse": ["2"]
+},
+"core63_64"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["63"],
+	"bottom_core"   : 15,
+	"bottom_synapse": ["3"]
+},
+"core63_65"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["64"],
+	"bottom_core"   : 0,
+	"bottom_synapse": ["4"]
+},
+"core63_66"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["65"],
+	"bottom_core"   : 0,
+	"bottom_synapse": ["5"]
+},
+"core63_67"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["66"],
+	"bottom_core"   : 0,
+	"bottom_synapse": ["6"]
+},
+"core63_68"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["67"],
+	"bottom_core"   : 0,
+	"bottom_synapse": ["7"]
+},
+"core63_69"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["68"],
+	"bottom_core"   : 1,
+	"bottom_synapse": ["4"]
+},
+"core63_70"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["69"],
+	"bottom_core"   : 1,
+	"bottom_synapse": ["5"]
+},
+"core63_71"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["70"],
+	"bottom_core"   : 1,
+	"bottom_synapse": ["6"]
+},
+"core63_72"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["71"],
+	"bottom_core"   : 1,
+	"bottom_synapse": ["7"]
+},
+"core63_73"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["72"],
+	"bottom_core"   : 2,
+	"bottom_synapse": ["4"]
+},
+"core63_74"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["73"],
+	"bottom_core"   : 2,
+	"bottom_synapse": ["5"]
+},
+"core63_75"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["74"],
+	"bottom_core"   : 2,
+	"bottom_synapse": ["6"]
+},
+"core63_76"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["75"],
+	"bottom_core"   : 2,
+	"bottom_synapse": ["7"]
+},
+"core63_77"       : {
+	"type"          : "input",
+	"core"          : 63,
+	"neuron"	      : ["76"],
+	"bottom_core"   : 3,
+	"bottom_synapse": ["4"]
+},
+"core0_10":{
+"type"           : "LIF",
+"core"           : 0,
+"neuron"         : ["0-48"],
+"bottom_core"    : 10,
+"bottom_synapse" : ["4-52"]
+},
+"core1_14":{
+"type"           : "LIF",
+"core"           : 1,
+"neuron"         : ["0-48"],
+"bottom_core"    : 14,
+"bottom_synapse" : ["4-52"]
+},
+"core2_6":{
+"type"           : "LIF",
+"core"           : 2,
+"neuron"         : ["0-48"],
+"bottom_core"    : 6,
+"bottom_synapse" : ["4-52"]
+},
+"core3_2":{
+"type"           : "LIF",
+"core"           : 3,
+"neuron"         : ["0-48"],
+"bottom_core"    : 2,
+"bottom_synapse" : ["8-56"]
+},
+"core4_7":{
+"type"           : "LIF",
+"core"           : 4,
+"neuron"         : ["0-48"],
+"bottom_core"    : 7,
+"bottom_synapse" : ["4-52"]
+},
+"core5_13":{
+"type"           : "LIF",
+"core"           : 5,
+"neuron"         : ["0-48"],
+"bottom_core"    : 13,
+"bottom_synapse" : ["4-52"]
+},
+"core6_3":{
+"type"           : "LIF",
+"core"           : 6,
+"neuron"         : ["0-48"],
+"bottom_core"    : 3,
+"bottom_synapse" : ["5-53"]
+},
+"core7_15":{
+"type"           : "LIF",
+"core"           : 7,
+"neuron"         : ["0-48"],
+"bottom_core"    : 15,
+"bottom_synapse" : ["4-52"]
+},
+"core8_0":{
+"type"           : "LIF",
+"core"           : 8,
+"neuron"         : ["0-48"],
+"bottom_core"    : 0,
+"bottom_synapse" : ["8-56"]
+},
+"core9_8":{
+"type"           : "LIF",
+"core"           : 9,
+"neuron"         : ["0-48"],
+"bottom_core"    : 8,
+"bottom_synapse" : ["4-52"]
+},
+"core10_1":{
+"type"           : "LIF",
+"core"           : 10,
+"neuron"         : ["0-48"],
+"bottom_core"    : 1,
+"bottom_synapse" : ["8-56"]
+},
+"core11_4":{
+"type"           : "LIF",
+"core"           : 11,
+"neuron"         : ["0-48"],
+"bottom_core"    : 4,
+"bottom_synapse" : ["4-52"]
+},
+"core12_9":{
+"type"           : "LIF",
+"core"           : 12,
+"neuron"         : ["0-48"],
+"bottom_core"    : 9,
+"bottom_synapse" : ["4-52"]
+},
+"core13_12":{
+"type"           : "LIF",
+"core"           : 13,
+"neuron"         : ["0-48"],
+"bottom_core"    : 12,
+"bottom_synapse" : ["4-52"]
+},
+"core14_5":{
+"type"           : "LIF",
+"core"           : 14,
+"neuron"         : ["0-48"],
+"bottom_core"    : 5,
+"bottom_synapse" : ["4-52"]
+},
+"core15_11":{
+"type"           : "LIF",
+"core"           : 15,
+"neuron"         : ["0-48"],
+"bottom_core"    : 11,
+"bottom_synapse" : ["4-52"]
+}
+}

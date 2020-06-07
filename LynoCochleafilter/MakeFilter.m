@@ -1,9 +1,9 @@
 function F = MakeFilter(Fb, Fa, f, fs, gain)
     
-    assert(size(Fb.B, 1)==1,["size(Fb.B, 1) should==1, but size(Fb.B, 1)==", num2str(size(Fb.B,1))]);
-    assert(size(Fb.A, 1)==1,["size(Fb.A, 1) should==1, but size(Fb.A, 1)==", num2str(size(Fb.A,1))]);
-    assert(size(Fa.B, 1)==1,["size(Fa.B, 1) should==1, but size(Fa.B, 1)==", num2str(size(Fa.B,1))]);
-    assert(size(Fa.A, 1)==1,["size(Fa.A, 1) should==1, but size(Fa.A, 1)==", num2str(size(Fa.A,1))]);
+%     assert(size(Fb.B, 1)==1,["size(Fb.B, 1) should==1, but size(Fb.B, 1)==", num2str(size(Fb.B,1))]);
+%     assert(size(Fb.A, 1)==1,["size(Fb.A, 1) should==1, but size(Fb.A, 1)==", num2str(size(Fb.A,1))]);
+%     assert(size(Fa.B, 1)==1,["size(Fa.B, 1) should==1, but size(Fa.B, 1)==", num2str(size(Fa.B,1))]);
+%     assert(size(Fa.A, 1)==1,["size(Fa.A, 1) should==1, but size(Fa.A, 1)==", num2str(size(Fa.A,1))]);
 
     % lb= (length(Fb.B)-1) * (length(Fa.A)-1);
     % la= (length(Fb.A)-1) * (length(Fa.B)-1);

@@ -3,8 +3,8 @@ clear;
 % load data/wavlsm.mat;
 load data/wavdata.mat;
 
-phase = ["filterlsm", "bp"];
-phase = ["bp"];
+phase = ["filterlsm", "bp", "snnjson"];
+phase = ["bp", "snnjson"];
 
 %% Create Filter
 opt.Fs = 8000;
@@ -34,7 +34,7 @@ lsmopt.tm = 32;
 lsmopt.tc = 64;
 lsmopt.tf = 2;
 lsmopt.dt = 1;
-lsmopt.kz = 7;
+lsmopt.kz = 16;
 lsmopt.kx = 7;
 lsmopt.ky = 7;
 lsmopt.vth = 20;
@@ -50,7 +50,7 @@ lsm = LSM(lsmopt);
 
 %% start 
 set_setp = 1;
-while (1)
+% while (1)
 for i = 1 : length(phase)
     switch phase(i)
         case "filterlsm"
@@ -105,38 +105,63 @@ for i = 1 : length(phase)
             load lsmout.mat
             ti = int32(size(lsmout,2));
             lsmtrain = lsmout(:,1:end);
+            [lsmtrain, mu, sigma] = zscore(lsmtrain);
+            
+            flowlabel = zeros(size(lsmout,1),10);
             mn = size(lsmtrain,1);
             li = size(lsmtrain,2);
-            train_x = double(lsmtrain(1 :set_setp: end, :));
-            train_y = zeros(size(train_x,1),10);
-            [train_x, mu, sigma] = zscore(train_x);
             ii = 0;
-            for i = 1 : set_setp : mn
-                ii= ii + 1;
+            for l = 1 : mn
                 for j = 1 : 10
-                    if j == label(i)+1
-                        train_y(ii, j) = 1;
+                    if j == label(l)+1
+                        flowlabel(l, j) = 1;
                     end
                 end
             end
+            
+            kk = randperm(mn);
+            train_m = round(mn*0.8);
+            test_m  = mn - train_m;
+            
+            train_x = double(lsmtrain( kk(1 :set_setp: train_m), :));
+%             train_y = zeros(size(train_x,1),10);
+            train_y = flowlabel(kk(1:set_setp:train_m),:);
+            test_x  = double(lsmtrain( kk(train_m+1 :set_setp: mn), :));
+%             test_y  = zeros(size(test_x,1),10);
+            test_y  = flowlabel(kk(train_m+1:set_setp:mn), :);
+            
+            mix_m = round(test_m*0.6);
+            kk = randperm(test_m);
+            sub_test_x = test_x(kk(1:mix_m),:);
+            sub_test_y = test_y(kk(1:mix_m),:);
+            kk = randperm(train_m);
+            train_x(kk(1:mix_m),:) = sub_test_x(:,:);
+            train_y(kk(1:mix_m),:) = sub_test_y(:,:);
+            
+            [train_x, mu, sigma] = zscore(train_x);
+            [test_x, mu, sigma]  = zscore(test_x);
+            
             rand('state', 0);
             nn = nnsetup([li, 10]);
-            opts.numepochs = 200;
-            opts.batchsize = 100;
+            opts.numepochs = 500;
+            opts.batchsize = 20;
             [nn, L] = nntrain(nn, train_x, train_y, opts);
             [er, bad] = nntest(nn, train_x, train_y);
-%             assert(er>0.08, ['enough small error : ', num2str(er*100),'%']);
+            [test_er, test_bad] = nntest(nn, test_x, test_y);
             if (er < 0.08)
-                disp(['too big error : ', num2str(er*100),'%']);
+                disp(['too small error : ', num2str(er*100),'%']);
                 save('net.mat', 'lsm', 'earfilter');
-                return
             else
-                disp(['enough small error : ', num2str(er*100),'%']);
+                disp(['enough big error : ', num2str(er*100),'%']);
             end
-%             assert(er<0.08, ['too big error : ', num2str(er*100),'%']);
+            
+            disp(['test set error : ', num2str(test_er*100), '%']);
+        case "snnjson"
+%             input layer
+            lsm = lsm2json(lsm);
         otherwise 
             disp(" underfied phase");
     end
 end
-end
+% end
 

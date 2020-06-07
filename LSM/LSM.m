@@ -36,59 +36,110 @@ function lsm = LSM(opt)
     
 %     assert((kx*ky*kz==n),'kx*ky*kz!=n');
 
-    for i = 1 : m
-        a = int32(i);
-        x = a / (ky*kz);
-        y = mod(a, (ky*kz));
-        z = mod(y, kz);
-        y = y / kz;
-        for j = 1 : n
-            a = int32(j);
-            xj = a / (ky*kz);
-            yj = mod(a, (ky*kz));
-            zj = mod(yj, kz);
-            yj = yj / kz;
-            d(i,j) = double((x-xj)^2 + (y-yj)^2 + (z-zj)^2);
-            
-            if (E(i)==1 && E(j)==1) 
-                p(i,j) = kee * exp(-1*d(i,j)/r);
-                C(i,j) = rand > p(i,j);
-                W(i,j) = C(i,j) * wee;
-            elseif (E(i)==1 && E(j)==0) 
-                p(i,j) = kei * exp(-1 * d(i,j)/r);
-                C(i,j) = rand > p(i,j);
-                W(i,j) = C(i,j) * wei;
-            elseif (E(i)==0 && E(j)==1) 
-                p(i,j) = kie * exp(-1 * d(i,j)/r);
-                C(i,j) = rand > p(i,j);
-                W(i,j) = C(i,j) * wie ;
-            elseif (E(i)==0 && E(j)==0) 
-                p(i,j) = kii * exp(-1 *d(i,j)/r);
-                C(i,j) = rand > p(i,j);
-                W(i,j) = C(i,j) * wii;
+    ckk = randperm(kz);
+    for ci = 1 : kz
+        cj = ckk(ci);
+        for i = 1 : kx*ky
+            for j = 1 : kx*ky
+                pre = (ci-1)*kx*ky + i;
+                post= (cj-1)*kx*ky + j;
+                ix = int32(i) / ky;
+                iy = i - ix*ky;
+                jx = int32(j) / ky;
+                jy = j - jx*ky;
+                d(pre,post) =sqrt( double( (ci-cj)^2 + (ix-jx)^2 + (iy-jy)^2 ) );
+                if (E(pre)==1 && E(post)==1) 
+                    p(pre,post) = kee * exp(-1*d(pre,post)/r);
+                    C(pre,post) = rand > p(pre,post);
+                    W(pre,post) = C(pre,post) * wee;
+                elseif (E(i)==1 && E(j)==0) 
+                    p(pre,post) = kei * exp(-1 * d(pre,post)/r);
+                    C(pre,post) = rand > p(pre,post);
+                    W(pre,post) = C(pre,post) * wei;
+                elseif (E(i)==0 && E(j)==1) 
+                    p(pre,post) = kie * exp(-1 * d(pre,post)/r);
+                    C(pre,post) = rand > p(pre,post);
+                    W(pre,post) = C(pre,post) * wie ;
+                elseif (E(i)==0 && E(j)==0) 
+                    p(pre,post) = kii * exp(-1 *d(pre,post)/r);
+                    C(pre,post) = rand > p(pre,post);
+                    W(pre,post) = C(pre,post) * wii;
+                end
+                
             end
         end
     end
-    Win = zeros(n,m);
-    i = 0;
-    for j = 1 : m
-        i = i + 1;
-        if i>n
-            i=1;
-        end
-        if E(j)==1
-            Win(i,j) = wee;
+    Win = zeros(n, m);
+    ink = zeros(1,kz);
+    mn = ceil(m/n);
+    mz = 1;
+    mj = 1;
+    for i = 1 : n
+        if (mj+mn-1) <= kx*ky
+            mj = mj + mn-1;
         else
-            Win(i,j) = wei;
+            mz = mz + 1;
+            if (mz>kz)
+                mz = 1;
+            end
+            mj = 1+mn-1;
         end
+        ink(i) = mz;
+        for j = (mz-1)*kx*ky + mj-mn+1 : (mz-1)*kx*ky+mj
+           
+            if E(j)==1
+                Win(i,j) = wee;
+            else
+                Win(i,j) = wei;
+            end
+        end
+        mj = mj + 1;
     end
-%     for i = 1 : n
-%         for j = 1 : m
-%             if E(j)==1
-%                 Win(i,j) = 1;
-%             else
-%                 Win(i,j) = 1;
+    
+%     for i = 1 : m
+%         a = int32(i);
+%         x = a / (ky*kz);
+%         y = mod(a, (ky*kz));
+%         z = mod(y, kz);
+%         y = y / kz;
+%         for j = 1 : n
+%             a = int32(j);
+%             xj = a / (ky*kz);
+%             yj = mod(a, (ky*kz));
+%             zj = mod(yj, kz);
+%             yj = yj / kz;
+%             d(pre,post) = double((x-xj)^2 + (y-yj)^2 + (z-zj)^2);
+%             
+%             if (E(i)==1 && E(j)==1) 
+%                 p(pre,post) = kee * exp(-1*d(pre,post)/r);
+%                 C(pre,post) = rand > p(pre,post);
+%                 W(pre,post) = C(pre,post) * wee;
+%             elseif (E(i)==1 && E(j)==0) 
+%                 p(pre,post) = kei * exp(-1 * d(pre,post)/r);
+%                 C(pre,post) = rand > p(pre,post);
+%                 W(pre,post) = C(pre,post) * wei;
+%             elseif (E(i)==0 && E(j)==1) 
+%                 p(pre,post) = kie * exp(-1 * d(pre,post)/r);
+%                 C(pre,post) = rand > p(pre,post);
+%                 W(pre,post) = C(pre,post) * wie ;
+%             elseif (E(i)==0 && E(j)==0) 
+%                 p(pre,post) = kii * exp(-1 *d(pre,post)/r);
+%                 C(pre,post) = rand > p(pre,post);
+%                 W(pre,post) = C(pre,post) * wii;
 %             end
+%         end
+%     end
+%     Win = zeros(n,m);
+%     i = 0;
+%     for j = 1 : m
+%         i = i + 1;
+%         if i>n
+%             i=1;
+%         end
+%         if E(j)==1
+%             Win(i,j) = wee;
+%         else
+%             Win(i,j) = wei;
 %         end
 %     end
 
@@ -98,6 +149,8 @@ function lsm = LSM(opt)
     lsm.C = C;
     lsm.W = W;
     lsm.Win = Win;
+    lsm.ckk = ckk;
+    lsm.ink = ink;
     for i = 1 : m
         lsm.W(i,i) = 0;
         lsm.C(i,i) = 0;

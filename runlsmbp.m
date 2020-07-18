@@ -3,8 +3,10 @@ clear;
 % load data/wavlsm.mat;
 load data/wavdata.mat;
 
-phase = ["filterlsm", "bp", "snnjson"];
+% phase = ["filterlsm", "bp", "snnjson"];
 phase = ["bp", "snnjson"];
+
+savespike = true;
 
 %% Create Filter
 opt.Fs = 8000;
@@ -51,8 +53,8 @@ lsm = LSM(lsmopt);
 %% start 
 set_setp = 1;
 % while (1)
-for i = 1 : length(phase)
-    switch phase(i)
+for ph = 1 : length(phase)
+    switch phase(ph)
         case "filterlsm"
 %% filter 
             len = size(wav_len, 1);
@@ -90,7 +92,12 @@ for i = 1 : length(phase)
                 spike = zeros(size(bsast, 1), size(bsast,2)/multi);
             	for i = 1 : multi
             	    spike(:,:) = max(spike(:,:), bsast(:,i:multi:end));
-                end	
+                end
+                if (savespike)
+                    spike_file_name = ['data/spike/spike', num2str(wavindex),'mat'];
+                    spike_label = wav_label(wavindex);
+                    save(spike_file_name, 'spike', 'spike_label');
+                end
               %% Applay LSM
 %                 disp(["Applay LSM"]);
                 [lsm, lsmspike] = runLSM(lsm, spike);
@@ -99,14 +106,17 @@ for i = 1 : length(phase)
                 lsmout(wavindex,:) = sumspike(:);
             end
            %% 
-            save('lsmout.mat', 'lsmout', 'label');
+            save('lsmout.mat', 'lsmout', 'label', 'lsm', 'earfilter');
         case "bp"
             %% 
             load lsmout.mat
             ti = int32(size(lsmout,2));
             lsmtrain = lsmout(:,1:end);
+            t = diag(1./max(lsmtrain, [], 2));
+            lsmtrain = t*lsmtrain;
+
             [lsmtrain, mu, sigma] = zscore(lsmtrain);
-            
+
             flowlabel = zeros(size(lsmout,1),10);
             mn = size(lsmtrain,1);
             li = size(lsmtrain,2);
@@ -130,20 +140,18 @@ for i = 1 : length(phase)
 %             test_y  = zeros(size(test_x,1),10);
             test_y  = flowlabel(kk(train_m+1:set_setp:mn), :);
             
-            mix_m = round(test_m*0.6);
+            mix_m = round(test_m*0.2);
             kk = randperm(test_m);
             sub_test_x = test_x(kk(1:mix_m),:);
             sub_test_y = test_y(kk(1:mix_m),:);
             kk = randperm(train_m);
             train_x(kk(1:mix_m),:) = sub_test_x(:,:);
             train_y(kk(1:mix_m),:) = sub_test_y(:,:);
-            
-            [train_x, mu, sigma] = zscore(train_x);
-            [test_x, mu, sigma]  = zscore(test_x);
-            
+
+
             rand('state', 0);
             nn = nnsetup([li, 10]);
-            opts.numepochs = 500;
+            opts.numepochs = 200;
             opts.batchsize = 20;
             [nn, L] = nntrain(nn, train_x, train_y, opts);
             [er, bad] = nntest(nn, train_x, train_y);
@@ -154,13 +162,30 @@ for i = 1 : length(phase)
             else
                 disp(['enough big error : ', num2str(er*100),'%']);
             end
-            
+
             disp(['test set error : ', num2str(test_er*100), '%']);
+
+            fod = fopen('outspike.out', 'r');
+            hw_case = zeros(lsm.m, 1);
+            for i = 1 : lsm.m
+                fscanf(fod, '%d', hw_case(i));
+            end
+            hw_case = normalized(hw_case', mu, sigma);
+%             hw_case = hw_case' / max(hw_case);
+            pre_label = nnpredict(nn, hw_case);
+            disp(['case label ', num2str(4), ' pre_label ', num2str(pre_label)]);
+
         case "snnjson"
 %             input layer
-            lsm = lsm2json(lsm);
+            lsm = lsm2json(lsm, 'data/lsm_net');
+            for i = 1 : 2000
+                load(['spike',num2str(i),'mat.mat']);
+                file = ['data/lsm_net/inspike',num2str(i),'in'];
+                spike2ins(lsm,spike,i,spike_label,file);
+            end
+%             spike = spike2ins(lsm, spike);
         otherwise 
-            disp(" underfied phase");
+            disp(" underfied phase ");
     end
 end
 % end

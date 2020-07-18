@@ -40,6 +40,7 @@ function lsm = LSM(opt)
     for ci = 1 : kz
         cj = ckk(ci);
         for i = 1 : kx*ky
+            
             for j = 1 : kx*ky
                 pre = (ci-1)*kx*ky + i;
                 post= (cj-1)*kx*ky + j;
@@ -65,7 +66,6 @@ function lsm = LSM(opt)
                     C(pre,post) = rand > p(pre,post);
                     W(pre,post) = C(pre,post) * wii;
                 end
-                
             end
         end
     end
@@ -86,7 +86,6 @@ function lsm = LSM(opt)
         end
         ink(i) = mz;
         for j = (mz-1)*kx*ky + mj-mn+1 : (mz-1)*kx*ky+mj
-           
             if E(j)==1
                 Win(i,j) = wee;
             else

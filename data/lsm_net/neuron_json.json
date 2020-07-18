@@ -1,0 +1,8 @@
+{
+    "name"          : "neuron_json",
+    "Vth"           : 10.0 ,
+    "Vrest"         : 0.0 ,
+    "tm"            : 2.0  ,
+    "dt"            : 1.0 ,
+    "sim_dt"        : 0.025
+}

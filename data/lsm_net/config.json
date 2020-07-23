@@ -10,116 +10,116 @@
 "timer_step"    : 1,
 "output_core"   : 1
 },
-"core0_2":{
+"core0_9":{
 "type"           : "LIF",
 "core"           : 0,
-"neuron"         : ["0-48"],
-"bottom_core"    : 2,
-"bottom_synapse" : ["8-56"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 9,
+"bottom_synapse" : ["4-19"]
 },
-"core1_3":{
+"core1_14":{
 "type"           : "LIF",
 "core"           : 1,
-"neuron"         : ["0-48"],
-"bottom_core"    : 3,
-"bottom_synapse" : ["5-53"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 14,
+"bottom_synapse" : ["4-19"]
 },
 "core2_5":{
 "type"           : "LIF",
 "core"           : 2,
-"neuron"         : ["0-48"],
+"neuron"         : ["0-15"],
 "bottom_core"    : 5,
-"bottom_synapse" : ["4-52"]
+"bottom_synapse" : ["4-19"]
 },
-"core3_11":{
+"core3_3":{
 "type"           : "LIF",
 "core"           : 3,
-"neuron"         : ["0-48"],
-"bottom_core"    : 11,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 3,
+"bottom_synapse" : ["5-20"]
 },
-"core4_1":{
+"core4_13":{
 "type"           : "LIF",
 "core"           : 4,
-"neuron"         : ["0-48"],
-"bottom_core"    : 1,
-"bottom_synapse" : ["8-56"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 13,
+"bottom_synapse" : ["4-19"]
 },
-"core5_12":{
+"core5_4":{
 "type"           : "LIF",
 "core"           : 5,
-"neuron"         : ["0-48"],
-"bottom_core"    : 12,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 4,
+"bottom_synapse" : ["4-19"]
 },
-"core6_6":{
+"core6_1":{
 "type"           : "LIF",
 "core"           : 6,
-"neuron"         : ["0-48"],
-"bottom_core"    : 6,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 1,
+"bottom_synapse" : ["8-23"]
 },
-"core7_15":{
+"core7_2":{
 "type"           : "LIF",
 "core"           : 7,
-"neuron"         : ["0-48"],
-"bottom_core"    : 15,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 2,
+"bottom_synapse" : ["8-23"]
 },
-"core8_14":{
+"core8_8":{
 "type"           : "LIF",
 "core"           : 8,
-"neuron"         : ["0-48"],
-"bottom_core"    : 14,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 8,
+"bottom_synapse" : ["4-19"]
 },
-"core9_13":{
+"core9_0":{
 "type"           : "LIF",
 "core"           : 9,
-"neuron"         : ["0-48"],
-"bottom_core"    : 13,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 0,
+"bottom_synapse" : ["8-23"]
 },
-"core10_7":{
+"core10_11":{
 "type"           : "LIF",
 "core"           : 10,
-"neuron"         : ["0-48"],
-"bottom_core"    : 7,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 11,
+"bottom_synapse" : ["4-19"]
 },
-"core11_8":{
+"core11_15":{
 "type"           : "LIF",
 "core"           : 11,
-"neuron"         : ["0-48"],
-"bottom_core"    : 8,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 15,
+"bottom_synapse" : ["4-19"]
 },
-"core12_9":{
+"core12_7":{
 "type"           : "LIF",
 "core"           : 12,
-"neuron"         : ["0-48"],
-"bottom_core"    : 9,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 7,
+"bottom_synapse" : ["4-19"]
 },
-"core13_4":{
+"core13_6":{
 "type"           : "LIF",
 "core"           : 13,
-"neuron"         : ["0-48"],
-"bottom_core"    : 4,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 6,
+"bottom_synapse" : ["4-19"]
 },
-"core14_0":{
+"core14_10":{
 "type"           : "LIF",
 "core"           : 14,
-"neuron"         : ["0-48"],
-"bottom_core"    : 0,
-"bottom_synapse" : ["8-56"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 10,
+"bottom_synapse" : ["4-19"]
 },
-"core15_10":{
+"core15_12":{
 "type"           : "LIF",
 "core"           : 15,
-"neuron"         : ["0-48"],
-"bottom_core"    : 10,
-"bottom_synapse" : ["4-52"]
+"neuron"         : ["0-15"],
+"bottom_core"    : 12,
+"bottom_synapse" : ["4-19"]
 }
 }

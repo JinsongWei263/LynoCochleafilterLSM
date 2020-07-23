@@ -3,8 +3,8 @@ clear;
 % load data/wavlsm.mat;
 load data/wavdata.mat;
 
-% phase = ["filterlsm", "bp", "snnjson"];
-phase = ["bp", "snnjson"];
+phase = ["filterlsm", "bp", "snnjson"];
+% phase = ["bp", "snnjson"];
 
 savespike = true;
 
@@ -37,8 +37,8 @@ lsmopt.tc = 64;
 lsmopt.tf = 2;
 lsmopt.dt = 1;
 lsmopt.kz = 16;
-lsmopt.kx = 7;
-lsmopt.ky = 7;
+lsmopt.kx = 4;
+lsmopt.ky = 4;
 lsmopt.vth = 20;
 lsmopt.kee = 0.45;
 lsmopt.kei = 0.3;
@@ -62,12 +62,14 @@ for ph = 1 : length(phase)
             label = wav_label;
             ii = 0;
             wavleft = 1;
-            for wavindex = 1 : set_setp : len
+            for twavindex = 1 : set_setp : len
                 ii = ii + 1;
+                wavindex = 1;
                 disp(['number : ', num2str(wavindex), ' wave label : ', num2str(wav_label(wavindex))]);
                 wav_test = wav_data(wavleft : wavleft+wav_len(wavindex)-1);
             	time = length(wav_test);
                 wavleft = wavleft+wav_len(wavindex);
+                
 %                 display(['wave length :', num2str(time)]);
                 %     label(i) = str2
             %% Applay Lynocochlea filter
@@ -100,7 +102,9 @@ for ph = 1 : length(phase)
                 end
               %% Applay LSM
 %                 disp(["Applay LSM"]);
+                tic;
                 [lsm, lsmspike] = runLSM(lsm, spike);
+                disp(['wav ', num2str(wavindex), ' LSM running time ' , num2str(toc*1000), 'ms']);
 %                 imshow(1-lsmspike');
                 sumspike = sum(lsmspike);
                 lsmout(wavindex,:) = sumspike(:);
@@ -178,7 +182,7 @@ for ph = 1 : length(phase)
         case "snnjson"
 %             input layer
             lsm = lsm2json(lsm, 'data/lsm_net');
-            for i = 1 : 2000
+            for i = 1 : 2000                                           
                 load(['spike',num2str(i),'mat.mat']);
                 file = ['data/lsm_net/inspike',num2str(i),'in'];
                 spike2ins(lsm,spike,i,spike_label,file);

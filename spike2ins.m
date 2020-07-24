@@ -74,5 +74,5 @@ for i = 1 : m
         fprintf(fid, '#DONE\n');
     end
 end
-
+fclose(fid);
 end

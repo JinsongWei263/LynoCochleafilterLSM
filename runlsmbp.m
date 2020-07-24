@@ -3,8 +3,10 @@ clear;
 % load data/wavlsm.mat;
 load data/wavdata.mat;
 
-phase = ["filterlsm", "bp", "snnjson"];
-% phase = ["bp", "snnjson"];
+% phase = ["filterlsm", "bp", "snnjson"];
+phase = ["bp", "snnjson"];
+% phase = ["filterlsm", "bp"];
+% phase = ["bp"];
 
 savespike = true;
 
@@ -37,17 +39,25 @@ lsmopt.tc = 64;
 lsmopt.tf = 2;
 lsmopt.dt = 1;
 lsmopt.kz = 16;
-lsmopt.kx = 4;
-lsmopt.ky = 4;
-lsmopt.vth = 20;
+lsmopt.kx = 7;
+lsmopt.ky = 7;
 lsmopt.kee = 0.45;
 lsmopt.kei = 0.3;
 lsmopt.kie = 0.6;
 lsmopt.kii = 0.15;
-lsmopt.wee= 3;
-lsmopt.wei= 6;
-lsmopt.wie= -2;
-lsmopt.wii= -2;
+
+% lsmopt.vth = 20;
+% lsmopt.wee= 3;
+% lsmopt.wei= 6;
+% lsmopt.wie= -2;
+% lsmopt.wii= -2;
+
+lsmopt.vth = 3e-4;
+lsmopt.wee= 1e-4-5.5e-5;
+lsmopt.wei= 1e-4-1e-5;
+lsmopt.wie= 7e-5-1e-4;
+lsmopt.wii= 7e-5-1e-4;
+
 lsm = LSM(lsmopt);
 
 %% start 
@@ -62,9 +72,8 @@ for ph = 1 : length(phase)
             label = wav_label;
             ii = 0;
             wavleft = 1;
-            for twavindex = 1 : set_setp : len
+            for wavindex = 1 : set_setp : len
                 ii = ii + 1;
-                wavindex = 1;
                 disp(['number : ', num2str(wavindex), ' wave label : ', num2str(wav_label(wavindex))]);
                 wav_test = wav_data(wavleft : wavleft+wav_len(wavindex)-1);
             	time = length(wav_test);
@@ -105,8 +114,10 @@ for ph = 1 : length(phase)
                 tic;
                 [lsm, lsmspike] = runLSM(lsm, spike);
                 disp(['wav ', num2str(wavindex), ' LSM running time ' , num2str(toc*1000), 'ms']);
-%                 imshow(1-lsmspike');
+                imshow(1-lsmspike');
                 sumspike = sum(lsmspike);
+%                 plot(sumspike);
+                
                 lsmout(wavindex,:) = sumspike(:);
             end
            %% 
@@ -137,27 +148,21 @@ for ph = 1 : length(phase)
             train_m = round(mn*0.8);
             test_m  = mn - train_m;
             
-            train_x = double(lsmtrain( kk(1 :set_setp: train_m), :));
+            train_x = double(lsmtrain( kk(1 :set_setp: mn), :));
 %             train_y = zeros(size(train_x,1),10);
-            train_y = flowlabel(kk(1:set_setp:train_m),:);
+            train_y = flowlabel(kk(1:set_setp:mn),:);
             test_x  = double(lsmtrain( kk(train_m+1 :set_setp: mn), :));
 %             test_y  = zeros(size(test_x,1),10);
             test_y  = flowlabel(kk(train_m+1:set_setp:mn), :);
             
-            mix_m = round(test_m*0.2);
-            kk = randperm(test_m);
-            sub_test_x = test_x(kk(1:mix_m),:);
-            sub_test_y = test_y(kk(1:mix_m),:);
-            kk = randperm(train_m);
-            train_x(kk(1:mix_m),:) = sub_test_x(:,:);
-            train_y(kk(1:mix_m),:) = sub_test_y(:,:);
-
-
             rand('state', 0);
             nn = nnsetup([li, 10]);
             opts.numepochs = 200;
-            opts.batchsize = 20;
+            opts.batchsize = 10;
             [nn, L] = nntrain(nn, train_x, train_y, opts);
+            
+            nn = nnfix(nn);
+            
             [er, bad] = nntest(nn, train_x, train_y);
             [test_er, test_bad] = nntest(nn, test_x, test_y);
             if (er < 0.08)
@@ -176,7 +181,7 @@ for ph = 1 : length(phase)
             end
             hw_case = normalized(hw_case', mu, sigma);
 %             hw_case = hw_case' / max(hw_case);
-            pre_label = nnpredict(nn, hw_case);
+            pre_label = nnpredict(nn, hw_case) - 1;
             disp(['case label ', num2str(4), ' pre_label ', num2str(pre_label)]);
 
         case "snnjson"
@@ -185,6 +190,7 @@ for ph = 1 : length(phase)
             for i = 1 : 2000                                           
                 load(['spike',num2str(i),'mat.mat']);
                 file = ['data/lsm_net/inspike',num2str(i),'in'];
+                disp(file)
                 spike2ins(lsm,spike,i,spike_label,file);
             end
 %             spike = spike2ins(lsm, spike);

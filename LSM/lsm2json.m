@@ -95,11 +95,27 @@ function lsm = lsm2json(lsm, path)
         left = (neuron.btm_core_id-1) * lsm.kx*lsm.ky +1;
         right = left + lsm.kx*lsm.ky-1;
         weight = lsm.Win(i, left:right);
+        rram_g = zeros(size(weight,1), size(weight,2)*2);
+        for j = 1 : size(weight,2)
+            if (weight(j)==(1e-4-5.5e-5))
+                rram_g(j*2-1) = 1e-4;
+                rram_g(j*2)   = 5.5e-4;
+            elseif weight(j) == (1e-4-1e-5)
+                rram_g(j*2-1) = 1e-4;
+                rram_g(j*2)   = 1e-5;
+            elseif weight(j) == (7e-5-1e-4)
+                rram_g(j*2-1) = 7e-5;
+                rram_g(j*2)   = 1e-4;
+            elseif weight(j) == 0
+                rram_g(j*2-1) = 1e-5;
+                rram_g(j*2) = 1e-5;
+            end
+        end
         fprintf(fid, '"core%d_syn%d" : {\n', neuron.btm_core_id-1, neuron.btm_syn);
         fprintf(fid, '"core" : %d,\n', neuron.btm_core_id-1);
         fprintf(fid, '"synapse" : %d,\n', neuron.btm_syn);
         fprintf(fid, '"neuron"  : ["%d-%d"],\n', 0, lsm.kx*lsm.ky-1);
-        stringw = sprintf('%d, ', weight);
+        stringw = sprintf('%d, ', rram_g);
         stringw = stringw(1:end-2);
         fprintf(fid, '"weight"  : [%s]\n', stringw);
         fprintf(fid, '},\n');
@@ -113,7 +129,23 @@ function lsm = lsm2json(lsm, path)
         fprintf(fid, '"synapse" : [%s],\n', neuron.btm_syn);
         weight = lsm.W((z-1)*lsm.kx*lsm.ky+1:z*lsm.kx*lsm.ky ,(neuron.btm_core_id-1)*lsm.kx*lsm.ky+1:neuron.btm_core_id*lsm.kx*lsm.ky);
         weight = reshape(weight', [1, lsm.kx*lsm.ky*lsm.kx*lsm.ky]);
-        stringw = sprintf('%d, ', weight);
+        rram_g = zeros(size(weight,1), size(weight,2)*2);
+        for j = 1 : size(weight,2)
+            if (weight(j)==(1e-4-5.5e-5))
+                rram_g(j*2-1) = 1e-4;
+                rram_g(j*2)   = 5.5e-4;
+            elseif weight(j) == (1e-4-1e-5)
+                rram_g(j*2-1) = 1e-4;
+                rram_g(j*2)   = 1e-5;
+            elseif weight(j) == (7e-5-1e-4)
+                rram_g(j*2-1) = 7e-5;
+                rram_g(j*2)   = 1e-4;
+            elseif weight(j) == 0
+                rram_g(j*2-1) = 1e-5;
+                rram_g(j*2) = 1e-5;
+            end
+        end
+        stringw = sprintf('%d, ', rram_g);
         stringw = stringw(1:end-2);
         fprintf(fid, '"weight" : [%s]\n', stringw);
         if (z ~= lsm.kz)

@@ -10,11 +10,11 @@
 "timer_step"    : 1,
 "output_core"   : 1
 },
-"core0_11":{
+"core0_6":{
 "type"           : "LIF",
 "core"           : 0,
 "neuron"         : ["0-48"],
-"bottom_core"    : 11,
+"bottom_core"    : 6,
 "bottom_synapse" : ["4-52"]
 },
 "core1_1":{
@@ -24,102 +24,102 @@
 "bottom_core"    : 1,
 "bottom_synapse" : ["8-56"]
 },
-"core2_4":{
+"core2_8":{
 "type"           : "LIF",
 "core"           : 2,
-"neuron"         : ["0-48"],
-"bottom_core"    : 4,
-"bottom_synapse" : ["4-52"]
-},
-"core3_5":{
-"type"           : "LIF",
-"core"           : 3,
-"neuron"         : ["0-48"],
-"bottom_core"    : 5,
-"bottom_synapse" : ["4-52"]
-},
-"core4_9":{
-"type"           : "LIF",
-"core"           : 4,
-"neuron"         : ["0-48"],
-"bottom_core"    : 9,
-"bottom_synapse" : ["4-52"]
-},
-"core5_14":{
-"type"           : "LIF",
-"core"           : 5,
-"neuron"         : ["0-48"],
-"bottom_core"    : 14,
-"bottom_synapse" : ["4-52"]
-},
-"core6_3":{
-"type"           : "LIF",
-"core"           : 6,
-"neuron"         : ["0-48"],
-"bottom_core"    : 3,
-"bottom_synapse" : ["5-53"]
-},
-"core7_2":{
-"type"           : "LIF",
-"core"           : 7,
-"neuron"         : ["0-48"],
-"bottom_core"    : 2,
-"bottom_synapse" : ["8-56"]
-},
-"core8_0":{
-"type"           : "LIF",
-"core"           : 8,
-"neuron"         : ["0-48"],
-"bottom_core"    : 0,
-"bottom_synapse" : ["8-56"]
-},
-"core9_13":{
-"type"           : "LIF",
-"core"           : 9,
-"neuron"         : ["0-48"],
-"bottom_core"    : 13,
-"bottom_synapse" : ["4-52"]
-},
-"core10_8":{
-"type"           : "LIF",
-"core"           : 10,
 "neuron"         : ["0-48"],
 "bottom_core"    : 8,
 "bottom_synapse" : ["4-52"]
 },
-"core11_6":{
+"core3_14":{
 "type"           : "LIF",
-"core"           : 11,
+"core"           : 3,
 "neuron"         : ["0-48"],
-"bottom_core"    : 6,
+"bottom_core"    : 14,
 "bottom_synapse" : ["4-52"]
 },
-"core12_12":{
+"core4_10":{
 "type"           : "LIF",
-"core"           : 12,
-"neuron"         : ["0-48"],
-"bottom_core"    : 12,
-"bottom_synapse" : ["4-52"]
-},
-"core13_15":{
-"type"           : "LIF",
-"core"           : 13,
-"neuron"         : ["0-48"],
-"bottom_core"    : 15,
-"bottom_synapse" : ["4-52"]
-},
-"core14_10":{
-"type"           : "LIF",
-"core"           : 14,
+"core"           : 4,
 "neuron"         : ["0-48"],
 "bottom_core"    : 10,
 "bottom_synapse" : ["4-52"]
 },
-"core15_7":{
+"core5_0":{
+"type"           : "LIF",
+"core"           : 5,
+"neuron"         : ["0-48"],
+"bottom_core"    : 0,
+"bottom_synapse" : ["8-56"]
+},
+"core6_9":{
+"type"           : "LIF",
+"core"           : 6,
+"neuron"         : ["0-48"],
+"bottom_core"    : 9,
+"bottom_synapse" : ["4-52"]
+},
+"core7_7":{
+"type"           : "LIF",
+"core"           : 7,
+"neuron"         : ["0-48"],
+"bottom_core"    : 7,
+"bottom_synapse" : ["4-52"]
+},
+"core8_4":{
+"type"           : "LIF",
+"core"           : 8,
+"neuron"         : ["0-48"],
+"bottom_core"    : 4,
+"bottom_synapse" : ["4-52"]
+},
+"core9_12":{
+"type"           : "LIF",
+"core"           : 9,
+"neuron"         : ["0-48"],
+"bottom_core"    : 12,
+"bottom_synapse" : ["4-52"]
+},
+"core10_13":{
+"type"           : "LIF",
+"core"           : 10,
+"neuron"         : ["0-48"],
+"bottom_core"    : 13,
+"bottom_synapse" : ["4-52"]
+},
+"core11_2":{
+"type"           : "LIF",
+"core"           : 11,
+"neuron"         : ["0-48"],
+"bottom_core"    : 2,
+"bottom_synapse" : ["8-56"]
+},
+"core12_15":{
+"type"           : "LIF",
+"core"           : 12,
+"neuron"         : ["0-48"],
+"bottom_core"    : 15,
+"bottom_synapse" : ["4-52"]
+},
+"core13_5":{
+"type"           : "LIF",
+"core"           : 13,
+"neuron"         : ["0-48"],
+"bottom_core"    : 5,
+"bottom_synapse" : ["4-52"]
+},
+"core14_3":{
+"type"           : "LIF",
+"core"           : 14,
+"neuron"         : ["0-48"],
+"bottom_core"    : 3,
+"bottom_synapse" : ["5-53"]
+},
+"core15_11":{
 "type"           : "LIF",
 "core"           : 15,
 "neuron"         : ["0-48"],
-"bottom_core"    : 7,
+"bottom_core"    : 11,
 "bottom_synapse" : ["4-52"]
 }
 }

@@ -4,9 +4,9 @@ clear;
 load data/wavdata.mat;
 
 % phase = ["filterlsm", "bp", "snnjson"];
-phase = ["bp", "snnjson"];
+% phase = ["bp", "snnjson"];
 % phase = ["filterlsm", "bp"];
-% phase = ["bp"];
+phase = ["bp"];
 
 savespike = true;
 
@@ -126,11 +126,18 @@ for ph = 1 : length(phase)
             %% 
             load lsmout.mat
             ti = int32(size(lsmout,2));
-            lsmtrain = lsmout(:,1:end);
-            t = diag(1./max(lsmtrain, [], 2));
-            lsmtrain = t*lsmtrain;
-
-            [lsmtrain, mu, sigma] = zscore(lsmtrain);
+%             lsmtrain = lsmout(:,1:end);
+%             t = diag(1./max(lsmtrain, [], 2));
+%             lsmtrain = t*lsmtrain;
+            lsmtrain = lsmout;
+            
+            [lsmtrain, mu, sigma] = zscored(lsmtrain);
+%             lsmtrain = double(lsmtrain')./max(lsmtrain');
+%             lsmtrain = lsmtrain';
+            for i = 1 : size(lsmtrain,1)
+                lsmtrain(i,:) = lsmtrain(i,:)/max(abs(lsmtrain(i,:)));
+            end
+            
 
             flowlabel = zeros(size(lsmout,1),10);
             mn = size(lsmtrain,1);
@@ -144,30 +151,30 @@ for ph = 1 : length(phase)
                 end
             end
             
-            kk = randperm(mn);
-            train_m = round(mn*0.8);
-            test_m  = mn - train_m;
-            
-            train_x = double(lsmtrain( kk(1 :set_setp: mn), :));
-%             train_y = zeros(size(train_x,1),10);
-            train_y = flowlabel(kk(1:set_setp:mn),:);
-            test_x  = double(lsmtrain( kk(train_m+1 :set_setp: mn), :));
-%             test_y  = zeros(size(test_x,1),10);
-            test_y  = flowlabel(kk(train_m+1:set_setp:mn), :);
+            train_x = lsmtrain;
+            train_y = flowlabel;
+            test_x  = lsmtrain;
+            test_y  = flowlabel;
+
+
+            rram_weight = [1e-5, 5.5e-5, 7e-5, 1e-4];
             
             rand('state', 0);
-            nn = nnsetup([li, 10]);
-            opts.numepochs = 200;
-            opts.batchsize = 10;
-            [nn, L] = nntrain(nn, train_x, train_y, opts);
+            opts.numepochs = 100;
+            opts.batchsize = 100;
             
-            nn = nnfix(nn);
+            nn = nnsetup([li, 10]);
+            nn.rram_scale = 1e4;
+            nn.rram = rram_weight * nn.rram_scale;          
+            
+            [nn, L] = nntrain(nn, train_x, train_y, test_x, test_y, opts);
             
             [er, bad] = nntest(nn, train_x, train_y);
             [test_er, test_bad] = nntest(nn, test_x, test_y);
+            
             if (er < 0.08)
                 disp(['too small error : ', num2str(er*100),'%']);
-                save('net.mat', 'lsm', 'earfilter');
+                save('net.mat', 'nn', 'lsm', 'earfilter');
             else
                 disp(['enough big error : ', num2str(er*100),'%']);
             end
@@ -179,10 +186,10 @@ for ph = 1 : length(phase)
             for i = 1 : lsm.m
                 fscanf(fod, '%d', hw_case(i));
             end
-            hw_case = normalized(hw_case', mu, sigma);
-%             hw_case = hw_case' / max(hw_case);
-            pre_label = nnpredict(nn, hw_case) - 1;
-            disp(['case label ', num2str(4), ' pre_label ', num2str(pre_label)]);
+%             hw_case = normalized(hw_case', mu, sigma);
+% %             hw_case = hw_case' / max(hw_case);
+%             pre_label = nnpredict(nn, hw_case) - 1;
+%             disp(['case label ', num2str(4), ' pre_label ', num2str(pre_label)]);
 
         case "snnjson"
 %             input layer

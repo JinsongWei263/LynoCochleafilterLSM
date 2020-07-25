@@ -1,4 +1,4 @@
-function [nn, L]  = nntrain(nn, train_x, train_y, opts, val_x, val_y)
+function [nn, L]  = nntrain(nn, train_x, train_y,test_x,test_y, opts, val_x, val_y)
 %NNTRAIN trains a neural net
 % [nn, L] = nnff(nn, x, y, opts) trains the neural network nn with input x and
 % output y for opts.numepochs epochs, with minibatches of size
@@ -14,7 +14,7 @@ loss.train.e_frac          = [];
 loss.val.e                 = [];
 loss.val.e_frac            = [];
 opts.validation = 0;
-if nargin == 6
+if nargin == 8
     opts.validation = 1;
 end
 
@@ -29,35 +29,31 @@ batchsize = opts.batchsize;
 numepochs = opts.numepochs;
 
 numbatches = m / batchsize;
+
 assert(rem(numbatches, 1) == 0, 'numbatches must be a integer');
 
 L = zeros(numepochs*numbatches,1);
 n = 1;
+nn.err=zeros(1,numepochs);
 for i = 1 : numepochs
     tic;
     
     kk = randperm(m);
     for l = 1 : numbatches
         batch_x = train_x(kk((l - 1) * batchsize + 1 : l * batchsize), :);
-        
-        %Add noise to input (for use in denoising autoencoder)
-        if(nn.inputZeroMaskedFraction ~= 0)
-            batch_x = batch_x.*(rand(size(batch_x))>nn.inputZeroMaskedFraction);
-        end
-        
+                
         batch_y = train_y(kk((l - 1) * batchsize + 1 : l * batchsize), :);
         
         nn = nnff(nn, batch_x, batch_y);
-        % rram-> 
-        % nn.a
         nn = nnbp(nn);
         nn = nnapplygrads(nn);
         
         L(n) = nn.L;
         
         n = n + 1;
+       
     end
-    
+    [nn.er(i),bad]=nntest(nn, test_x, test_y);
     t = toc;
 
     if opts.validation == 1
@@ -70,9 +66,8 @@ for i = 1 : numepochs
     if ishandle(fhandle)
         nnupdatefigures(nn, fhandle, loss, opts, i);
     end
-    if (i~=numepochs) 
-        disp(['epoch ' num2str(i) '/' num2str(opts.numepochs) '. Took ' num2str(t) ' seconds' '. Mini-batch mean squared error on training set is ' num2str(mean(L((n-numbatches):(n)))) str_perf]);
-    end
+        
+    disp(['epoch ' num2str(i) '/' num2str(opts.numepochs) '. Took ' num2str(t) ' seconds' '. Mini-batch mean squared error on training set is ' num2str(mean(L((n-numbatches):(n-1)))) str_perf]);
     nn.learningRate = nn.learningRate * nn.scaling_learningRate;
 end
 end
